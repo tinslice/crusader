@@ -1,0 +1,44 @@
+version: '3.7'
+
+volumes:
+  pg-data:
+#    driver_opts:
+#      type: none
+#      device: $PWD/${LOCAL_DATA}/postgresql/data
+#      o: bind
+
+services:
+  pg:
+    image: tinslice/postgres:12-ubuntu-18.04
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    shm_size: 256MB # increase this in case of 'ERROR: could not resize shared memory segment . . . : No space left on device'
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./config/postgresql/conf.d:/etc/postgresql/12/main/conf.d
+      - ./config/postgresql/scripts:/etc/postgresql/scripts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "cat", "/var/lib/postgresql/data/container_ready"]
+      timeout: 10s
+      retries: 20
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_ROLES: '[]'
+      POSTGRES_USERS: '[]'
+      POSTGRES_DB: '{
+        "tenant1_todo": {
+          "roles": [],
+          "init": []
+        },
+        "tenant2_todo": {
+          "roles": [],
+          "init": []
+        }
+      }'
+      # run sql files on postgres start
+      POSTGRES_RUN_SCRIPTS: '{}'
+      # run sql scripts on postgres start
+      POSTGRES_RUN_SQL: '{}'

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="demo" id="01-create-items-table">
+        <createSequence sequenceName="todo_item_id_sequence" dataType="BIGINT" incrementBy="1" startValue="1" />
+        <createTable tableName="todo_item">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="pk_todo_item_id" nullable="false"/>
+            </column>
+            <column name="value" type="TEXT">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="completed" type="BOOLEAN">
+                <constraints nullable="false" primaryKey="false" unique="false" />
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false" primaryKey="false" unique="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false" primaryKey="false" unique="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog> 

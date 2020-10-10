@@ -1,0 +1,32 @@
+spring:
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+    - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+  datasource:
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+  #    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/todo}
+#    username: ${DATASOURCE_USER:postgres}
+#    password: ${DATASOURCE_PASSWORD:postgres}
+  jpa:
+    packages-to-scan: com.tinslice.crusader.demo
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show_sql: false
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase/master.xml
+
+server:
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: ERROR
