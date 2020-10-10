@@ -7,9 +7,9 @@ import com.tinslice.crusader.multitenant.context.TenantContextHolder;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 public class TenantSchemaIdentifierResolver implements CurrentTenantIdentifierResolver {
-    private final MultiTenantConfig<TenantConfig> multiTenantConfig;
+    private final MultiTenantConfig<? extends TenantConfig> multiTenantConfig;
 
-    public TenantSchemaIdentifierResolver(MultiTenantConfig<TenantConfig> multiTenantConfig) {
+    public TenantSchemaIdentifierResolver(MultiTenantConfig<? extends TenantConfig> multiTenantConfig) {
         this.multiTenantConfig = multiTenantConfig;
     }
 

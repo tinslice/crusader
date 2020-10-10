@@ -1,6 +1,5 @@
 package com.tinslice.crusader.demo;
 
-import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.database.TenantConnectionProvider;
 import com.tinslice.crusader.multitenant.database.TenantSchemaIdentifierResolver;
 import org.hibernate.MultiTenancyStrategy;
@@ -36,12 +35,12 @@ public class TodoDatabaseConfig {
     }
 
     @Bean
-    public CurrentTenantIdentifierResolver currentTenantIdentifierResolver(MultiTenantConfig multiTenantConfig) {
+    public CurrentTenantIdentifierResolver currentTenantIdentifierResolver(TodoConfig multiTenantConfig) {
         return new TenantSchemaIdentifierResolver(multiTenantConfig);
     }
 
     @Bean
-    public MultiTenantConnectionProvider multiTenantConnectionProvider(MultiTenantConfig multiTenantConfig) {
+    public MultiTenantConnectionProvider multiTenantConnectionProvider(TodoConfig multiTenantConfig) {
         return new TenantConnectionProvider(multiTenantConfig);
     }
 

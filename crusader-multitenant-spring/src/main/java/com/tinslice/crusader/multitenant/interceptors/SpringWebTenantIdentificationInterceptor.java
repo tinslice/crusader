@@ -2,6 +2,7 @@ package com.tinslice.crusader.multitenant.interceptors;
 
 import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
+import com.tinslice.crusader.multitenant.TenantConfig;
 import com.tinslice.crusader.multitenant.context.TenantContext;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
 import com.tinslice.crusader.multitenant.providers.TenantProvider;
@@ -10,6 +11,7 @@ import com.tinslice.crusader.multitenant.strategies.TenantIdentificationStrategy
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNullApi;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -23,14 +25,14 @@ import java.util.Map;
 public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SpringWebTenantIdentificationInterceptor.class);
 
-    private final MultiTenantConfig multiTenantConfig;
+    private final MultiTenantConfig<? extends TenantConfig> multiTenantConfig;
     private final TenantProvider tenantProvider;
 
     private String defaultTenant;
 
     private final List<TenantIdentificationStrategy> identificationStrategies = new ArrayList<>();
 
-    public SpringWebTenantIdentificationInterceptor(MultiTenantConfig multiTenantConfig, TenantProvider tenantProvider) {
+    public SpringWebTenantIdentificationInterceptor(MultiTenantConfig<? extends TenantConfig> multiTenantConfig, TenantProvider tenantProvider) {
         this.multiTenantConfig = multiTenantConfig;
         this.tenantProvider = tenantProvider;
         this.init();

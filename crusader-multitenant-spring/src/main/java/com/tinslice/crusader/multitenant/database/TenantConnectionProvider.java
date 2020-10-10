@@ -15,11 +15,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
-    private final MultiTenantConfig<TenantConfig> multiTenantConfig;
+    private final MultiTenantConfig<? extends TenantConfig> multiTenantConfig;
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
 
-    public TenantConnectionProvider(MultiTenantConfig<TenantConfig> multiTenantConfig) {
+    public TenantConnectionProvider(MultiTenantConfig<? extends TenantConfig> multiTenantConfig) {
         this.multiTenantConfig = multiTenantConfig;
         initDataSources();
     }
@@ -49,7 +49,7 @@ public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenant
         }
 
         multiTenantConfig.getDataSources().forEach((dataSource) -> {
-            DataSourceBuilder factory = DataSourceBuilder.create()
+            DataSourceBuilder<HikariDataSource> factory = DataSourceBuilder.create()
                     .type(HikariDataSource.class)
                     .driverClassName(dataSource.getDriverClassName())
                     .url(dataSource.getUrl())
