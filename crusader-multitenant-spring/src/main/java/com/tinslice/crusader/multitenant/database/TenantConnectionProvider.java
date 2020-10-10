@@ -1,62 +1,61 @@
 package com.tinslice.crusader.multitenant.database;
 
-import com.tinslice.crusader.multitenant.MultiTenantTenantConfig;
+import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
+import com.tinslice.crusader.multitenant.TenantConfig;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
-    private final MultiTenantTenantConfig multiTenantTenantConfig;
+    private final MultiTenantConfig<TenantConfig> multiTenantConfig;
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
 
-    public TenantConnectionProvider(MultiTenantTenantConfig multiTenantTenantConfig) {
-        this.multiTenantTenantConfig = multiTenantTenantConfig;
+    public TenantConnectionProvider(MultiTenantConfig<TenantConfig> multiTenantConfig) {
+        this.multiTenantConfig = multiTenantConfig;
         initDataSources();
     }
 
     @Override
     protected DataSource selectAnyDataSource() {
         Tenant currentTenant = TenantContextHolder.getContext().getTenant();
-        String tenantId = (String) currentTenant.getIdentity();
-        DataSource dataSource = this.selectDataSource(tenantId);
-
-        if (dataSource != null) {
-            return dataSource;
+        String tenantId = currentTenant != null ? (String) currentTenant.getIdentity() : null;
+        // if in case tenantId is null we use the default tenant as we do not care what database we use
+        if (StringUtils.isEmpty(tenantId)) {
+            tenantId = multiTenantConfig.getDefaultTenant();
         }
-
-        String[] tenants = dataSources.keySet().toArray(String[]::new);
-        if (tenants.length > 0) {
-            return dataSources.get(tenants[0]);
-        }
-
-        return null;
+        return this.selectDataSource(tenantId);
     }
 
     @Override
     public DataSource selectDataSource(String tenantId) {
-        return dataSources.containsKey(tenantId) ? dataSources.get(tenantId) : dataSources.get(multiTenantTenantConfig.getDefaultTenant());
+        if (StringUtils.isEmpty(tenantId) || !multiTenantConfig.isTenantEnabled(tenantId)) {
+            return null;
+        }
+        return dataSources.get(multiTenantConfig.tenantConfig(tenantId).getDatabaseConnection());
     }
 
     private void initDataSources() {
-        if (multiTenantTenantConfig == null || multiTenantTenantConfig.getDataSources() == null) {
+        if (multiTenantConfig == null || CollectionUtils.isEmpty(multiTenantConfig.getDataSources())) {
             throw new NullPointerException("datasource configuration is not defined");
         }
 
-        multiTenantTenantConfig.getDataSources().forEach((tenantId, dataSource) -> {
+        multiTenantConfig.getDataSources().forEach((dataSource) -> {
             DataSourceBuilder factory = DataSourceBuilder.create()
                     .type(HikariDataSource.class)
                     .driverClassName(dataSource.getDriverClassName())
                     .url(dataSource.getUrl())
                     .username(dataSource.getUsername())
                     .password(dataSource.getPassword());
-            this.dataSources.put(tenantId, factory.build());
+            this.dataSources.put(dataSource.getConnectionId(), factory.build());
         });
     }
 }

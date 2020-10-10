@@ -8,14 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ResourceLoader;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class TenantSpringLiquibase extends MultiTenantSpringLiquibase {
     private static final Logger logger = LoggerFactory.getLogger(TenantSpringLiquibase.class);
-
-    private final List<DataSource> dataSources = new ArrayList<>();
 
     private final Set<String> activeTenants;
     private final TenantConnectionProvider connectionProvider;
@@ -28,18 +24,8 @@ public class TenantSpringLiquibase extends MultiTenantSpringLiquibase {
     }
     @Override
     public void afterPropertiesSet() throws Exception {
-//        resolveDataSources();
         runOnAllDataSources();
     }
-
-//    private void resolveDataSources() throws SQLException {
-//        for(String tenant : activeTenants) {
-//            DataSource dataSource = connectionProvider.selectDataSource(tenant);
-//            if (dataSource != null) {
-//                dataSources.add(dataSource);
-//            }
-//        }
-//    }
 
     private void runOnAllDataSources() throws LiquibaseException {
 

@@ -15,6 +15,8 @@
         <spring-framework.version>5.2.9.RELEASE</spring-framework.version>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
 
+        <jakarta-annotation.version>1.3.5</jakarta-annotation.version>
+
         <hibernate.version>5.4.21.Final</hibernate.version>
         <hikaricp.version>3.4.5</hikaricp.version>
         <liquibase.version>3.8.9</liquibase.version>

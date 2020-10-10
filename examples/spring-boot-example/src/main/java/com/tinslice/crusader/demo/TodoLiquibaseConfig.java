@@ -1,6 +1,5 @@
 package com.tinslice.crusader.demo;
 
-import com.tinslice.crusader.multitenant.MultiTenantTenantConfig;
 import com.tinslice.crusader.multitenant.database.TenantConnectionProvider;
 import com.tinslice.crusader.multitenant.database.TenantSpringLiquibase;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -14,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
 public class TodoLiquibaseConfig {
     @Bean
     public TenantSpringLiquibase liquibaseMultiTenant(
-            MultiTenantTenantConfig multiTenantTenantConfig,
+            TodoConfig multiTenantConfig,
             MultiTenantConnectionProvider connectionProvider,
             LiquibaseProperties liquibaseProperties) {
 
-        TenantSpringLiquibase liquibase = new TenantSpringLiquibase(multiTenantTenantConfig.getActiveTenants(),
+        TenantSpringLiquibase liquibase = new TenantSpringLiquibase(multiTenantConfig.getActiveTenants(),
                 (TenantConnectionProvider) connectionProvider);
 
         liquibase.setChangeLog(liquibaseProperties.getChangeLog());

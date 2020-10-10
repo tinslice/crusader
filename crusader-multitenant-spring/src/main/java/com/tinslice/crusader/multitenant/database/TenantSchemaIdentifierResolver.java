@@ -1,15 +1,16 @@
 package com.tinslice.crusader.multitenant.database;
 
-import com.tinslice.crusader.multitenant.MultiTenantTenantConfig;
+import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
+import com.tinslice.crusader.multitenant.TenantConfig;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 public class TenantSchemaIdentifierResolver implements CurrentTenantIdentifierResolver {
-    private final MultiTenantTenantConfig multiTenantTenantConfig;
+    private final MultiTenantConfig<TenantConfig> multiTenantConfig;
 
-    public TenantSchemaIdentifierResolver(MultiTenantTenantConfig multiTenantTenantConfig) {
-        this.multiTenantTenantConfig = multiTenantTenantConfig;
+    public TenantSchemaIdentifierResolver(MultiTenantConfig<TenantConfig> multiTenantConfig) {
+        this.multiTenantConfig = multiTenantConfig;
     }
 
     @Override
@@ -18,7 +19,7 @@ public class TenantSchemaIdentifierResolver implements CurrentTenantIdentifierRe
         if (currentTenant != null) {
             return (String) currentTenant.getIdentity();
         }
-        return multiTenantTenantConfig.getDefaultTenant();
+        return multiTenantConfig.getDefaultTenant();
     }
 
     @Override

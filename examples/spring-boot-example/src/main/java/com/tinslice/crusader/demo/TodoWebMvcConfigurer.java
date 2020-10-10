@@ -1,6 +1,5 @@
 package com.tinslice.crusader.demo;
 
-import com.tinslice.crusader.multitenant.MultiTenantTenantConfig;
 import com.tinslice.crusader.multitenant.interceptors.SpringWebTenantIdentificationInterceptor;
 import com.tinslice.crusader.multitenant.providers.DefaultTenantProvider;
 import com.tinslice.crusader.multitenant.providers.TenantProvider;
@@ -11,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class TodoWebMvcConfigurer implements WebMvcConfigurer {
-    private final MultiTenantTenantConfig multiTenantTenantConfig;
+    private final TodoConfig multiTenantConfig;
 
     @Bean
     public TenantProvider getTenantProvider() {
@@ -19,16 +18,16 @@ public class TodoWebMvcConfigurer implements WebMvcConfigurer {
     }
 
     @Bean
-    public SpringWebTenantIdentificationInterceptor getTenantIdentificationInterceptor(MultiTenantTenantConfig multiTenantTenantConfig) {
-        return new SpringWebTenantIdentificationInterceptor(multiTenantTenantConfig, getTenantProvider());
+    public SpringWebTenantIdentificationInterceptor getTenantIdentificationInterceptor(TodoConfig multiTenantConfig) {
+        return new SpringWebTenantIdentificationInterceptor(multiTenantConfig, getTenantProvider());
     }
 
-    public TodoWebMvcConfigurer(MultiTenantTenantConfig multiTenantTenantConfig) {
-        this.multiTenantTenantConfig = multiTenantTenantConfig;
+    public TodoWebMvcConfigurer(TodoConfig multiTenantConfig) {
+        this.multiTenantConfig = multiTenantConfig;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getTenantIdentificationInterceptor(multiTenantTenantConfig));
+        registry.addInterceptor(getTenantIdentificationInterceptor(multiTenantConfig));
     }
 }

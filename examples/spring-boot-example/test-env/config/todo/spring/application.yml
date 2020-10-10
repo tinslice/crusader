@@ -1,14 +1,18 @@
 spring:
+  datasource:
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 7
   liquibase:
     drop-first: true
 todo:
   datasources:
-    tenant1:
+    - connection-id: database/tenant1
       driver-class-name: org.postgresql.Driver
       url: ${TENANT1_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tenant1_todo}
       username: ${TENANT1_DATASOURCE_USER:postgres}
       password: ${TENANT1_DATASOURCE_PASSWORD:postgres}
-    tenant2:
+    - connection-id: database/tenant2
       driver-class-name: org.postgresql.Driver
       url: ${TENANT2_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tenant2_todo}
       username: ${TENANT2_DATASOURCE_USER:postgres}
@@ -25,6 +29,12 @@ todo:
       host-pattern:
         regexp: "^api\\.(.*)\\.127-0-0-1\\.nip\\.io:8080"
         matchIndex: 1
+  tenants:
+    - id: tenant1
+      database-connection: database/tenant1
+    - id: tenant2
+      database-connection: database/tenant3
+
 
 logging:
   level:

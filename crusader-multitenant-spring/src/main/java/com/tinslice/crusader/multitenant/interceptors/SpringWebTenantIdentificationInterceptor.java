@@ -1,6 +1,6 @@
 package com.tinslice.crusader.multitenant.interceptors;
 
-import com.tinslice.crusader.multitenant.MultiTenantTenantConfig;
+import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
 import com.tinslice.crusader.multitenant.context.TenantContext;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
@@ -23,15 +23,15 @@ import java.util.Map;
 public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SpringWebTenantIdentificationInterceptor.class);
 
-    private final MultiTenantTenantConfig multiTenantTenantConfig;
+    private final MultiTenantConfig multiTenantConfig;
     private final TenantProvider tenantProvider;
 
     private String defaultTenant;
 
     private final List<TenantIdentificationStrategy> identificationStrategies = new ArrayList<>();
 
-    public SpringWebTenantIdentificationInterceptor(MultiTenantTenantConfig multiTenantTenantConfig, TenantProvider tenantProvider) {
-        this.multiTenantTenantConfig = multiTenantTenantConfig;
+    public SpringWebTenantIdentificationInterceptor(MultiTenantConfig multiTenantConfig, TenantProvider tenantProvider) {
+        this.multiTenantConfig = multiTenantConfig;
         this.tenantProvider = tenantProvider;
         this.init();
     }
@@ -87,26 +87,25 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
 
         String tenantIdentity = (String) tenant.getIdentity();
         // if active tenants is undefined allow all tenants
-        if (multiTenantTenantConfig.getActiveTenants() != null
-                && !multiTenantTenantConfig.getActiveTenants().isEmpty() && !multiTenantTenantConfig.getActiveTenants().contains(tenantIdentity)) {
+        if (multiTenantConfig.getActiveTenants() != null
+                && !multiTenantConfig.getActiveTenants().isEmpty() && !multiTenantConfig.getActiveTenants().contains(tenantIdentity)) {
             logger.error(String.format("Tenant '%s' is not enabled", tenantIdentity));
             throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
         }
     }
     private void init() {
-        if (multiTenantTenantConfig == null) {
+        if (multiTenantConfig == null) {
             logger.warn("Unable to create tenant interceptors bean :: configuration undefined");
             return;
         }
 
-        MultiTenantTenantConfig.Identification tenantIdentification = multiTenantTenantConfig.getIdentification();
+        MultiTenantConfig.Identification tenantIdentification = multiTenantConfig.getIdentification();
         if (tenantIdentification == null) {
             logger.warn("Unable to create tenant interceptors bean :: tenant identification undefined");
             return;
         }
 
-        // set default tenant
-        this.defaultTenant = multiTenantTenantConfig.getDefaultTenant();
+        this.defaultTenant = multiTenantConfig.getDefaultTenant();
 
         Map<String, Map<String, Object>> strategies = tenantIdentification.getStrategies();
 

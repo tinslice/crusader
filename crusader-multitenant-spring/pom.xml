@@ -85,6 +85,13 @@
     <!--  DATABASE: END  -->
 
     <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>${jakarta-annotation.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <scope>provided</scope>
