@@ -1,5 +1,6 @@
 package com.tinslice.crusader.multitenant;
 
+import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
@@ -19,7 +20,7 @@ public class MultiTenantConfig<T extends TenantConfig> {
     private Identification identification;
     private List<T> tenants;
 
-    private Map<String, T> tenantsConfigMap = new HashMap<>();
+    private final Map<String, T> tenantsConfigMap = new HashMap<>();
 
     /**
      * Check if the provided tenant is active/enabled or not.
@@ -103,14 +104,12 @@ public class MultiTenantConfig<T extends TenantConfig> {
     }
 
     public static final class DataSource {
-        public static final String DEFAULT_CONNECTION_POOL_SIZE = "10";
-
         private String connectionId;
         private String url;
         private String username;
         private String password;
         private String driverClassName;
-        private String maximumPoolSize;
+        private HikariConfig hikariConfig;
 
         public String getConnectionId() {
             return connectionId;
@@ -152,12 +151,12 @@ public class MultiTenantConfig<T extends TenantConfig> {
             this.driverClassName = driverClassName;
         }
 
-        public String getMaximumPoolSize() {
-            return maximumPoolSize;
+        public HikariConfig getHikari() {
+            return hikariConfig;
         }
 
-        public void setMaximumPoolSize(String maximumPoolSize) {
-            this.maximumPoolSize = maximumPoolSize;
+        public void setHikari(HikariConfig hikariConfig) {
+            this.hikariConfig = hikariConfig;
         }
     }
 }

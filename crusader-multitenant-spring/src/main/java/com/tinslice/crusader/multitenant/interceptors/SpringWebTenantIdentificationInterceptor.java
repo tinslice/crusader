@@ -11,7 +11,6 @@ import com.tinslice.crusader.multitenant.strategies.TenantIdentificationStrategy
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNullApi;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -60,7 +59,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
             }
 
             if (logger.isTraceEnabled()) {
-                logger.trace(String.format("identified tenant '%s'", tenantId));
+                logger.trace("identified tenant '{}'", tenantId);
             }
 
             tenant = this.tenantProvider.findTenant(tenantId);
@@ -69,7 +68,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
 
         if (tenant == null && this.defaultTenant != null) {
             if (logger.isTraceEnabled()) {
-                logger.trace(String.format("using default tenant '%s'", this.defaultTenant));
+                logger.trace("using default tenant '{}'", this.defaultTenant);
             }
 
             tenant = this.tenantProvider.findTenant(this.defaultTenant);
@@ -82,7 +81,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
     private void checkActiveTenant(HttpServletRequest request, Tenant tenant) {
         if (tenant == null) {
             if (logger.isDebugEnabled()) {
-                logger.debug(String.format("Could not identify tenant for '%s'", request.getRequestURL()));
+                logger.debug("Could not identify tenant for '{}'", request.getRequestURL());
             }
             throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
         }
@@ -91,7 +90,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
         // if active tenants is undefined allow all tenants
         if (multiTenantConfig.getActiveTenants() != null
                 && !multiTenantConfig.getActiveTenants().isEmpty() && !multiTenantConfig.getActiveTenants().contains(tenantIdentity)) {
-            logger.error(String.format("Tenant '%s' is not enabled", tenantIdentity));
+            logger.error("Tenant '{}' is not enabled", tenantIdentity);
             throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
         }
     }
@@ -120,7 +119,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
             try {
                 this.identificationStrategies.add(TenantIdentificationStrategyFactory.instance(strategy, config));
             } catch (InstantiationException e) {
-                logger.error(String.format("Failed to instantiate strategy '%s'", strategy), e);
+                logger.error("Failed to instantiate strategy '{}'", strategy, e);
             }
         });
     }

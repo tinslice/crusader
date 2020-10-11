@@ -1,8 +1,4 @@
 spring:
-  datasource:
-    hikari:
-      minimum-idle: 2
-      maximum-pool-size: 7
   liquibase:
     drop-first: true
 todo:
@@ -12,11 +8,17 @@ todo:
       url: ${TENANT1_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tenant1_todo}
       username: ${TENANT1_DATASOURCE_USER:postgres}
       password: ${TENANT1_DATASOURCE_PASSWORD:postgres}
+      hikari:
+        minimum-idle: 2
+        maximum-pool-size: 5
     - connection-id: database/tenant2
       driver-class-name: org.postgresql.Driver
       url: ${TENANT2_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tenant2_todo}
       username: ${TENANT2_DATASOURCE_USER:postgres}
       password: ${TENANT2_DATASOURCE_PASSWORD:postgres}
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 10
   default-tenant: tenant1
   active-tenants: [ "tenant1", "tenant2", "tenant3" ]
   identification:
@@ -33,14 +35,14 @@ todo:
     - id: tenant1
       database-connection: database/tenant1
     - id: tenant2
-      database-connection: database/tenant3
+      database-connection: database/tenant2
 
 
 logging:
   level:
     root: INFO
     com:
-      tinslice.crusader: DEBUG
+      tinslice.crusader: TRACE
       zaxxer.hikari: TRACE
     org.hibernate: DEBUG
     liquibase: TRACE

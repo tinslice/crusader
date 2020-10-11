@@ -30,17 +30,17 @@ public class TenantSpringLiquibase extends MultiTenantSpringLiquibase {
     private void runOnAllDataSources() throws LiquibaseException {
 
         for(String tenant : activeTenants) {
-            logger.info(String.format("Initializing Liquibase for tenant '%s'", tenant));
+            logger.info("Initializing Liquibase for tenant '{}'", tenant);
 
             DataSource dataSource = connectionProvider.selectDataSource(tenant);
             if (dataSource == null) {
-                logger.warn(String.format("Unable to run liquibase for tenant '%s' (database connection is not defined.", tenant));
+                logger.warn("Unable to run liquibase for tenant '{}' :: database connection is not defined", tenant);
                 return;
             }
 
             SpringLiquibase liquibase = getSpringLiquibase(dataSource);
             liquibase.afterPropertiesSet();
-            logger.info(String.format("Liquibase ran for tenant '%s'", tenant));
+            logger.info("Liquibase ran for tenant '{}'", tenant);
         }
     }
 
