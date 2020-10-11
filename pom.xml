@@ -5,7 +5,7 @@
 
   <groupId>com.tinslice</groupId>
   <artifactId>crusader</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.1</version>
 
   <packaging>pom</packaging>
 
@@ -19,4 +19,10 @@
     <module>crusader-multitenant-spring</module>
   </modules>
 
+  <distributionManagement>
+    <repository>
+      <id>crusader-gitlab</id>
+      <url>https://maven.pkg.github.com/tinslice/crusader</url>
+    </repository>
+  </distributionManagement>
 </project>

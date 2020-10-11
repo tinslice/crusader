@@ -17,8 +17,21 @@
 
   <properties>
     <java.version>11</java.version>
-    <crusader.version>0.1.0-SNAPSHOT</crusader.version>
+    <crusader.version>0.1.1</crusader.version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>crusader</id>
+      <url>https://maven.pkg.github.com/tinslice/crusader</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
