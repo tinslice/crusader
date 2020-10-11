@@ -6,7 +6,7 @@ import com.tinslice.crusader.multitenant.Tenant;
  * Base implementation of {@link package Tenant}.
  */
 public class SimpleTenant implements Tenant {
-    private Object identity = null;
+    private Object identity;
 
     public SimpleTenant(Object identity) {
         this.identity = identity;

@@ -19,8 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
     private static final Logger logger = LoggerFactory.getLogger(TenantConnectionProvider.class);
 
-    public static final String EMPTY_STRING = "";
-
     private final MultiTenantConfig<? extends TenantConfig> multiTenantConfig;
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
 
@@ -70,16 +68,8 @@ public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenant
             throw new NullPointerException("datasource configuration is not defined");
         }
 
-        multiTenantConfig.getDataSources().forEach((dataSource) -> {
-//            DataSourceBuilder<HikariDataSource> factory = DataSourceBuilder.create()
-//                    .type(HikariDataSource.class)
-//                    .driverClassName(dataSource.getDriverClassName())
-//                    .url(dataSource.getUrl())
-//                    .username(dataSource.getUsername())
-//                    .password(dataSource.getPassword());
-//            this.dataSources.put(dataSource.getConnectionId(), factory.build());
-            this.dataSources.put(dataSource.getConnectionId(), createDatasourceInstance(dataSource));
-        });
+        multiTenantConfig.getDataSources().forEach((dataSource) ->
+                this.dataSources.put(dataSource.getConnectionId(), createDatasourceInstance(dataSource)));
     }
 
     /**

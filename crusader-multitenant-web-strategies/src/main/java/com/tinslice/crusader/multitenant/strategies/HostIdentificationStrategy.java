@@ -54,7 +54,7 @@ public class HostIdentificationStrategy implements TenantIdentificationStrategy 
     @Override
     public void initialize(Map<String, Object> config) {
         if (config == null) {
-            setConfiguration(Collections.<String, String>emptyMap());
+            setConfiguration(Collections.emptyMap());
             logger.warn("Initializing tenant identification strategy with empty configuration");
             return;
         }

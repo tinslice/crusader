@@ -1,6 +1,7 @@
 spring:
   liquibase:
     drop-first: true
+
 todo:
   datasources:
     - connection-id: database/tenant1

@@ -4,7 +4,7 @@ package com.tinslice.crusader.multitenant.context;
  * A <code>ThreadLocal</code>-based implementation of {@link TenantContextHolderStrategy}.
  */
 public class ThreadLocalTenantContextHolderStrategy implements TenantContextHolderStrategy {
-    private static final ThreadLocal<TenantContext> contextHolder = new InheritableThreadLocal<TenantContext>();
+    private static final ThreadLocal<TenantContext> contextHolder = new InheritableThreadLocal<>();
 
     @Override
     public void clearContext() {
