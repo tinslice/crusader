@@ -5,13 +5,15 @@
   <parent>
     <groupId>com.tinslice.crusader</groupId>
     <artifactId>crusader-parent</artifactId>
-    <version>0.1.1</version>
-    <relativePath>../crusader-parent</relativePath>
+    <version>0.2.1</version>
+    <relativePath>../../crusader-parent</relativePath>
   </parent>
 
   <artifactId>multitenant-spring</artifactId>
 
   <name>crusader-multitenant-spring</name>
+
+  <url>https://github.com/tinslice/crusader</url>
 
   <properties>
 
@@ -21,13 +23,13 @@
     <dependency>
       <groupId>com.tinslice.crusader</groupId>
       <artifactId>multitenant-core</artifactId>
-      <version>0.1.1</version>
+      <version>0.2.1</version>
     </dependency>
 
     <dependency>
       <groupId>com.tinslice.crusader</groupId>
       <artifactId>multitenant-web-strategies</artifactId>
-      <version>0.1.1</version>
+      <version>0.2.1</version>
     </dependency>
 
     <!--  SPRING: START  -->

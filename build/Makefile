@@ -19,4 +19,4 @@ set-version:
 	sed -i -e 's|<crusader.version>.*|<crusader.version>${PROJECT_VERSION}</crusader.version>|g' $(root_path)/examples/multitenant-spring-boot-example/pom.xml
 
 deploy:
-	mvn -f $(root_path) deploy
+	mvn -f $(root_path) clean deploy -P oss,release

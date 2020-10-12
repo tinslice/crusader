@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
- * Factory class for instantiating {@see TenantIdentificationStrategy} implementations.
+ * Factory class for instantiating {@link TenantIdentificationStrategy} implementations.
  */
 public class TenantIdentificationStrategyFactory {
     private static final Logger logger = LoggerFactory.getLogger(TenantIdentificationStrategyFactory.class);

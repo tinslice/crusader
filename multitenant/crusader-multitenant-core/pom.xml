@@ -6,13 +6,15 @@
   <parent>
     <groupId>com.tinslice.crusader</groupId>
     <artifactId>crusader-parent</artifactId>
-    <version>0.1.1</version>
-    <relativePath>../crusader-parent</relativePath>
+    <version>0.2.1</version>
+    <relativePath>../../crusader-parent</relativePath>
   </parent>
 
   <artifactId>multitenant-core</artifactId>
 
   <name>crusader-multitenant-core</name>
+
+  <url>https://github.com/tinslice/crusader</url>
 
   <properties>
   </properties>

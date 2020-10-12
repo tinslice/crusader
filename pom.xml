@@ -5,7 +5,7 @@
 
   <groupId>com.tinslice</groupId>
   <artifactId>crusader</artifactId>
-  <version>0.1.1</version>
+  <version>0.2.1</version>
 
   <packaging>pom</packaging>
 
@@ -14,15 +14,21 @@
   <modules>
     <module>crusader-dependencies</module>
     <module>crusader-parent</module>
-    <module>crusader-multitenant-core</module>
-    <module>crusader-multitenant-web-strategies</module>
-    <module>crusader-multitenant-spring</module>
+    <module>multitenant/crusader-multitenant-core</module>
+    <module>multitenant/crusader-multitenant-web-strategies</module>
+    <module>multitenant/crusader-multitenant-spring</module>
   </modules>
 
   <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
     <repository>
-      <id>crusader-gitlab</id>
-      <url>https://maven.pkg.github.com/tinslice/crusader</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
+
 </project>

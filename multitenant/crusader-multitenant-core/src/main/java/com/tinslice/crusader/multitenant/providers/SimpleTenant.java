@@ -3,10 +3,10 @@ package com.tinslice.crusader.multitenant.providers;
 import com.tinslice.crusader.multitenant.Tenant;
 
 /**
- * Base implementation of {@link package Tenant}.
+ * Base implementation of {@link Tenant}.
  */
 public class SimpleTenant implements Tenant {
-    private Object identity;
+    private final Object identity;
 
     public SimpleTenant(Object identity) {
         this.identity = identity;
