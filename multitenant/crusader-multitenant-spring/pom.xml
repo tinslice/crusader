@@ -5,34 +5,53 @@
   <parent>
     <groupId>com.tinslice.crusader</groupId>
     <artifactId>crusader-parent</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2-SNAPSHOT</version>
     <relativePath>../../crusader-parent</relativePath>
   </parent>
 
   <artifactId>multitenant-spring</artifactId>
 
   <name>crusader-multitenant-spring</name>
+  <description>Base configuration to enable multi tenancy for Spring Boot applications</description>
 
   <url>https://github.com/tinslice/crusader</url>
 
-  <properties>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
 
-  </properties>
+  <scm>
+    <connection>scm:git:git://github.com/tinslice/crusader.git</connection>
+    <developerConnection>scm:git:ssh://github.com:tinslice/crusader.git</developerConnection>
+    <url>http://github.com/tinslice/crusader/tree/main</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>Catalin Manolescu</name>
+      <email>catalin.manolescu@tin-slice.com</email>
+      <organization>Tin Slice</organization>
+      <organizationUrl>https://github.com/tinslice</organizationUrl>
+    </developer>
+  </developers>
 
   <dependencies>
     <dependency>
       <groupId>com.tinslice.crusader</groupId>
       <artifactId>multitenant-core</artifactId>
-      <version>0.2.1</version>
+      <version>0.2.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.tinslice.crusader</groupId>
       <artifactId>multitenant-web-strategies</artifactId>
-      <version>0.2.1</version>
+      <version>0.2.2-SNAPSHOT</version>
     </dependency>
 
-    <!--  SPRING: START  -->
+    <!--  SPRING >>>  -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot</artifactId>
@@ -53,16 +72,9 @@
       <version>${spring-framework.version}</version>
       <optional>true</optional>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.springframework</groupId>-->
-<!--      <artifactId>spring-context</artifactId>-->
-<!--      <version>${spring-framework.version}</version>-->
-<!--      <optional>true</optional>-->
-<!--    </dependency>-->
+    <!--  SPRING <<<  -->
 
-    <!--  SPRING: END  -->
-
-    <!--  DATABASE: START  -->
+    <!--  DATABASE >>>  -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
@@ -83,8 +95,7 @@
       <version>${liquibase.version}</version>
       <optional>true</optional>
     </dependency>
-
-    <!--  DATABASE: END  -->
+    <!--  DATABASE <<<  -->
 
     <dependency>
       <groupId>jakarta.annotation</groupId>
@@ -108,6 +119,8 @@
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <!--  TEST  -->
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
@@ -129,8 +142,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-
-  </build>
 </project>

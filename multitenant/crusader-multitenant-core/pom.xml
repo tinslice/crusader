@@ -6,18 +6,38 @@
   <parent>
     <groupId>com.tinslice.crusader</groupId>
     <artifactId>crusader-parent</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2-SNAPSHOT</version>
     <relativePath>../../crusader-parent</relativePath>
   </parent>
 
   <artifactId>multitenant-core</artifactId>
 
   <name>crusader-multitenant-core</name>
+  <description>Base classes and interfaces required to add multi tenant support for java applications</description>
 
   <url>https://github.com/tinslice/crusader</url>
 
-  <properties>
-  </properties>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git://github.com/tinslice/crusader.git</connection>
+    <developerConnection>scm:git:ssh://github.com:tinslice/crusader.git</developerConnection>
+    <url>http://github.com/tinslice/crusader/tree/main</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>Catalin Manolescu</name>
+      <email>catalin.manolescu@tin-slice.com</email>
+      <organization>Tin Slice</organization>
+      <organizationUrl>https://github.com/tinslice</organizationUrl>
+    </developer>
+  </developers>
 
   <dependencies>
     <dependency>
@@ -26,7 +46,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-  </build>
 </project>
