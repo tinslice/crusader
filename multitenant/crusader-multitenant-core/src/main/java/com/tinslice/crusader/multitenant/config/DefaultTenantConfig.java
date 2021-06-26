@@ -1,6 +1,6 @@
-package com.tinslice.crusader.multitenant;
+package com.tinslice.crusader.multitenant.config;
 
-public class DefaultTenantConfig implements TenantConfig{
+public class DefaultTenantConfig implements TenantConfig {
     private String id;
     private String databaseConnection;
 

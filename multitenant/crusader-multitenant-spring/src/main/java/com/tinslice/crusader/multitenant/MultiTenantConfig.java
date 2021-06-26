@@ -1,8 +1,7 @@
 package com.tinslice.crusader.multitenant;
 
+import com.tinslice.crusader.multitenant.config.TenantConfig;
 import com.zaxxer.hikari.HikariConfig;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
@@ -11,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Configuration
-@ConfigurationProperties(prefix = "crusader.multitenant")
 public class MultiTenantConfig<T extends TenantConfig> {
     private List<DataSource> dataSources;
     private String defaultTenant;
@@ -42,6 +39,10 @@ public class MultiTenantConfig<T extends TenantConfig> {
 
     @PostConstruct
     public void afterPropertiesSet() {
+        if (tenants == null) {
+            return;
+        }
+
         for (T tenantConfig : tenants) {
             tenantsConfigMap.put(tenantConfig.getId(), tenantConfig);
         }

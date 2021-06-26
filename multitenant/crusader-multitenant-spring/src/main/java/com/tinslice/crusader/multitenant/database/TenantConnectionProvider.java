@@ -2,7 +2,7 @@ package com.tinslice.crusader.multitenant.database;
 
 import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
-import com.tinslice.crusader.multitenant.TenantConfig;
+import com.tinslice.crusader.multitenant.config.TenantConfig;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

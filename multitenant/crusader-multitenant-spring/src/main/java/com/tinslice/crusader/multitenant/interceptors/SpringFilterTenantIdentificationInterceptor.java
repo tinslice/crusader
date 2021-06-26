@@ -3,7 +3,6 @@ package com.tinslice.crusader.multitenant.interceptors;
 import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
 import com.tinslice.crusader.multitenant.config.TenantConfig;
-import com.tinslice.crusader.multitenant.context.TenantContext;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
 import com.tinslice.crusader.multitenant.providers.TenantProvider;
 import com.tinslice.crusader.multitenant.strategies.TenantIdentificationStrategy;
@@ -11,41 +10,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptorAdapter implements TenantIdentificationStrategyInterceptor {
-    private static final Logger logger = LoggerFactory.getLogger(SpringWebTenantIdentificationInterceptor.class);
+public class SpringFilterTenantIdentificationInterceptor extends OncePerRequestFilter implements TenantIdentificationStrategyInterceptor {
+    private static final Logger logger = LoggerFactory.getLogger(SpringFilterTenantIdentificationInterceptor.class);
 
     private final MultiTenantConfig<? extends TenantConfig> multiTenantConfig;
     private final TenantProvider tenantProvider;
 
     private String defaultTenant;
-
     private final List<TenantIdentificationStrategy> identificationStrategies = new ArrayList<>();
 
-    public SpringWebTenantIdentificationInterceptor(MultiTenantConfig<? extends TenantConfig> multiTenantConfig, TenantProvider tenantProvider) {
+    public SpringFilterTenantIdentificationInterceptor(MultiTenantConfig<? extends TenantConfig> multiTenantConfig, TenantProvider tenantProvider) {
+        super();
         this.multiTenantConfig = multiTenantConfig;
         this.tenantProvider = tenantProvider;
-        this.init();
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         this.identifyTenant(request);
-        return super.preHandle(request, response, handler);
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        TenantContextHolder.clearContext();
-        super.postHandle(request, response, handler, modelAndView);
+        chain.doFilter(request, response);
     }
 
     @Override
@@ -54,7 +48,6 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
     }
 
     private void identifyTenant(HttpServletRequest request) {
-        TenantContext context = TenantContextHolder.getContext();
         Tenant tenant = null;
         for (TenantIdentificationStrategy strategy : identificationStrategies) {
             Object tenantId = strategy.identifyTenant(request);
@@ -79,7 +72,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
         }
 
         checkActiveTenant(request, tenant);
-        context.setTenant(tenant);
+        TenantContextHolder.getContext().setTenant(tenant);
     }
 
     private void checkActiveTenant(HttpServletRequest request, Tenant tenant) {
@@ -99,15 +92,21 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
         }
     }
 
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        this.init();
+    }
+
     private void init() {
         if (multiTenantConfig == null) {
-            logger.warn("Unable to create tenant interceptors bean :: configuration undefined");
+            logger.warn("Unable to create tenant interceptors filter :: configuration undefined");
             return;
         }
 
         MultiTenantConfig.Identification tenantIdentification = multiTenantConfig.getIdentification();
         if (tenantIdentification == null) {
-            logger.warn("Unable to create tenant interceptors bean :: tenant identification undefined");
+            logger.warn("Unable to create tenant interceptors filter :: tenant identification undefined");
             return;
         }
 
