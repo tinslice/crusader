@@ -15,7 +15,7 @@ install:
 	mvn -f $(root_path) clean install
 
 set-version:
-	mvn -f $(root_path) versions:set -DnewVersion=${PROJECT_VERSION} -DprocessAllModules=true -DgenerateBackupPoms=false; \
+	mvn -f $(root_path) versions:set -DnewVersion=${PROJECT_VERSION} -DprocessAllModules=true -DgenerateBackupPoms=false versions:commit; \
 	sed -i -e 's|<crusader.version>.*|<crusader.version>${PROJECT_VERSION}</crusader.version>|g' $(root_path)/examples/multitenant-spring-boot-example/pom.xml
 
 deploy:
