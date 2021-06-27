@@ -5,7 +5,7 @@
 
     <groupId>com.tinslice.crusader</groupId>
     <artifactId>crusader-dependencies</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.2.2</version>
 
     <packaging>pom</packaging>
 
