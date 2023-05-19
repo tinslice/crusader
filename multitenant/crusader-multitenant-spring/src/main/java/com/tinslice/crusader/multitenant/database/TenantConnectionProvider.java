@@ -4,6 +4,7 @@ import com.tinslice.crusader.multitenant.MultiTenantConfig;
 import com.tinslice.crusader.multitenant.Tenant;
 import com.tinslice.crusader.multitenant.config.TenantConfig;
 import com.tinslice.crusader.multitenant.context.TenantContextHolder;
+import com.tinslice.crusader.multitenant.providers.SimpleTenant;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
@@ -37,6 +38,7 @@ public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenant
             if (StringUtils.isEmpty(tenantId) && multiTenantConfig.getActiveTenants().size() > 0) {
                 tenantId = multiTenantConfig.getActiveTenants().toArray(new String[0])[0];
             }
+            TenantContextHolder.getContext().setTenant(new SimpleTenant(tenantId));
         }
         return this.selectDataSource(tenantId);
     }
