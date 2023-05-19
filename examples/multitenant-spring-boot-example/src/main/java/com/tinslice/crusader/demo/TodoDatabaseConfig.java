@@ -2,7 +2,7 @@ package com.tinslice.crusader.demo;
 
 import com.tinslice.crusader.multitenant.database.TenantConnectionProvider;
 import com.tinslice.crusader.multitenant.database.TenantSchemaIdentifierResolver;
-import org.hibernate.MultiTenancyStrategy;
+//import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -19,7 +19,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public class TodoDatabaseConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(MultiTenantConnectionProvider multiTenantConnectionProvider,
                                                                        CurrentTenantIdentifierResolver currentTenantIdentifierResolver) {
         Map<String, Object> hibernateProperties = new LinkedHashMap<>();
-        hibernateProperties.put(AvailableSettings.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
+        // https://github.com/hibernate/hibernate-orm/blob/6.0/migration-guide.adoc#multitenancy-simplification
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
         hibernateProperties.putAll(jpaProperties.getProperties());

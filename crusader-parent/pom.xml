@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.tinslice.crusader</groupId>
         <artifactId>crusader-dependencies</artifactId>
-        <version>0.2.3-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
         <relativePath>../crusader-dependencies</relativePath>
     </parent>
 

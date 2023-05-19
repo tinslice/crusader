@@ -5,19 +5,19 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.0</version>
+    <version>3.0.7</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <groupId>com.tinslice.crusader.demo</groupId>
   <artifactId>multitenant-spring-boot-example</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
 
   <name>multitenant-spring-boot-example</name>
 
   <properties>
-    <java.version>11</java.version>
-    <crusader.version>0.2.3-SNAPSHOT</crusader.version>
+    <java.version>17</java.version>
+    <crusader.version>0.3.0-SNAPSHOT</crusader.version>
   </properties>
 
   <dependencies>
@@ -60,15 +60,13 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>${javax-validation.version}</version>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
-      <version>${liquibase.version}</version>
     </dependency>
 
     <dependency>
