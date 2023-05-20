@@ -3,3 +3,4 @@
 **/.idea
 .run
 build/.env
+.DS_Store
