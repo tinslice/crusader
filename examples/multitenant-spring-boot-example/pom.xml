@@ -17,7 +17,7 @@
 
   <properties>
     <java.version>11</java.version>
-    <crusader.version>0.2.3-SNAPSHOT</crusader.version>
+    <crusader.version>0.2.3</crusader.version>
   </properties>
 
   <dependencies>
