@@ -7,9 +7,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -19,5 +17,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots --file pom.xml package
+        run: mvn --batch-mode --update-snapshots package
 
