@@ -10,7 +10,7 @@ import com.tinslice.crusader.multitenant.strategies.TenantIdentificationStrategy
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -87,7 +87,7 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
             if (logger.isDebugEnabled()) {
                 logger.debug("Could not identify tenant for '{}'", request.getRequestURL());
             }
-            throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
         String tenantIdentity = (String) tenant.getIdentity();
@@ -95,7 +95,8 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
         if (multiTenantConfig.getActiveTenants() != null
                 && !multiTenantConfig.getActiveTenants().isEmpty() && !multiTenantConfig.getActiveTenants().contains(tenantIdentity)) {
             logger.error("Tenant '{}' is not enabled", tenantIdentity);
-            throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
 

@@ -7,9 +7,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -18,6 +16,12 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
+      - name: Install gpg secret key
+        run: |
+          # Install GPG key
+          cat <(echo -e "${{ secrets.OSSRH_GPG_KEY }}") | gpg --batch --import
+          # Verify gpg secret key
+          gpg --list-secret-keys --keyid-format=long
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots --file pom.xml package
+        run: mvn --batch-mode --update-snapshots -Dgpg.passphrase=${{ secrets.OSSRH_GPG_KEY_PASSWORD }} verify
 
