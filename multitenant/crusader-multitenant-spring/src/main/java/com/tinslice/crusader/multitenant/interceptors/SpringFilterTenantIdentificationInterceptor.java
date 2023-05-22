@@ -9,13 +9,13 @@ import com.tinslice.crusader.multitenant.strategies.TenantIdentificationStrategy
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class SpringFilterTenantIdentificationInterceptor extends OncePerRequestF
             if (logger.isDebugEnabled()) {
                 logger.debug("Could not identify tenant for '{}'", request.getRequestURL());
             }
-            throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
         String tenantIdentity = (String) tenant.getIdentity();
@@ -88,7 +88,7 @@ public class SpringFilterTenantIdentificationInterceptor extends OncePerRequestF
         if (multiTenantConfig.getActiveTenants() != null
                 && !multiTenantConfig.getActiveTenants().isEmpty() && !multiTenantConfig.getActiveTenants().contains(tenantIdentity)) {
             logger.error("Tenant '{}' is not enabled", tenantIdentity);
-            throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
 

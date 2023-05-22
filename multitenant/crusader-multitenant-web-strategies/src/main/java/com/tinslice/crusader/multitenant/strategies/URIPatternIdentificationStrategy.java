@@ -1,6 +1,6 @@
 package com.tinslice.crusader.multitenant.strategies;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Implementation of {@link TenantIdentificationStrategy} that matches the tenant identity from request URI.

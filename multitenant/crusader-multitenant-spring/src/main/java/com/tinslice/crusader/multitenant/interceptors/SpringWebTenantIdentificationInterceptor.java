@@ -11,16 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptorAdapter implements TenantIdentificationStrategyInterceptor {
+public class SpringWebTenantIdentificationInterceptor implements HandlerInterceptor, TenantIdentificationStrategyInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(SpringWebTenantIdentificationInterceptor.class);
 
     private final MultiTenantConfig<? extends TenantConfig> multiTenantConfig;
@@ -39,13 +40,13 @@ public class SpringWebTenantIdentificationInterceptor extends HandlerInterceptor
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         this.identifyTenant(request);
-        return super.preHandle(request, response, handler);
+        return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         TenantContextHolder.clearContext();
-        super.postHandle(request, response, handler, modelAndView);
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 
     @Override

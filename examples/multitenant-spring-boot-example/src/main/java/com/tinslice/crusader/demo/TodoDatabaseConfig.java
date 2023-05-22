@@ -2,7 +2,6 @@ package com.tinslice.crusader.demo;
 
 import com.tinslice.crusader.multitenant.database.TenantConnectionProvider;
 import com.tinslice.crusader.multitenant.database.TenantSchemaIdentifierResolver;
-//import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;

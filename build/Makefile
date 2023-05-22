@@ -18,7 +18,7 @@ help:
 get-version: ## get project version
 	@echo $(PROJECT_VERSION)
 
-build: ## build maven project
+package: ## build maven project
 	$(mvn_cmd) --batch-mode -U -f $(root_path) clean package
 
 install: ## build maven project and install in local maven repository
