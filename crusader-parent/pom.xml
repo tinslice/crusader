@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.tinslice.crusader</groupId>
         <artifactId>crusader-dependencies</artifactId>
-        <version>0.2.3</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../crusader-dependencies</relativePath>
     </parent>
 
@@ -42,7 +42,7 @@
 
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <resource.delimiter>@</resource.delimiter>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>

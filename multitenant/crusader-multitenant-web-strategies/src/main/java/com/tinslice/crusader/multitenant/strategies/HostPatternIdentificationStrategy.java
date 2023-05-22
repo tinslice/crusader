@@ -1,6 +1,6 @@
 package com.tinslice.crusader.multitenant.strategies;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class HostPatternIdentificationStrategy extends AbstractHttpServletPatternIdentificationStrategy {
     public static final String NAME = "host-pattern";

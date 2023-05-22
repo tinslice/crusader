@@ -49,7 +49,7 @@ public class TenantSpringLiquibase extends MultiTenantSpringLiquibase {
         liquibase.setChangeLog(this.getChangeLog());
         liquibase.setChangeLogParameters(this.getParameters());
         liquibase.setContexts(this.getContexts());
-        liquibase.setLabels(this.getLabels());
+        liquibase.setLabelFilter(this.getLabelFilter());
         liquibase.setDropFirst(this.isDropFirst());
         liquibase.setClearCheckSums(this.isClearCheckSums());
         liquibase.setShouldRun(this.isShouldRun());

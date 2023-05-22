@@ -20,7 +20,7 @@ todo:
       hikari:
         minimum-idle: 5
         maximum-pool-size: 10
-  default-tenant: tenant1
+#  default-tenant: tenant1
   active-tenants: [ "tenant1", "tenant2", "tenant3" ]
   identification:
     strategies:

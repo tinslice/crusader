@@ -5,7 +5,7 @@
 
   <groupId>com.tinslice</groupId>
   <artifactId>crusader</artifactId>
-  <version>0.2.3</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 

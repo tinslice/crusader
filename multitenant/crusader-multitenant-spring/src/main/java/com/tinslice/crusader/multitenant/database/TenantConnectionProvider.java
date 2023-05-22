@@ -11,7 +11,7 @@ import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTen
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -33,9 +33,9 @@ public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenant
         Tenant currentTenant = TenantContextHolder.getContext().getTenant();
         String tenantId = currentTenant != null ? (String) currentTenant.getIdentity() : null;
         // if in case tenantId is null we use the default tenant as we do not care what database we use
-        if (StringUtils.isEmpty(tenantId)) {
+        if (ObjectUtils.isEmpty(tenantId)) {
             tenantId = multiTenantConfig.getDefaultTenant();
-            if (StringUtils.isEmpty(tenantId) && multiTenantConfig.getActiveTenants().size() > 0) {
+            if (ObjectUtils.isEmpty(tenantId) && multiTenantConfig.getActiveTenants().size() > 0) {
                 tenantId = multiTenantConfig.getActiveTenants().toArray(new String[0])[0];
             }
             TenantContextHolder.getContext().setTenant(new SimpleTenant(tenantId));
@@ -45,11 +45,11 @@ public class TenantConnectionProvider extends AbstractDataSourceBasedMultiTenant
 
     @Override
     public DataSource selectDataSource(String tenantId) {
-        if (StringUtils.isEmpty(tenantId)) {
+        if (ObjectUtils.isEmpty(tenantId)) {
             tenantId = multiTenantConfig.getDefaultTenant();
         }
 
-        if (StringUtils.isEmpty(tenantId)
+        if (ObjectUtils.isEmpty(tenantId)
                 || !multiTenantConfig.isTenantEnabled(tenantId)) {
             logger.error("unable to identify database connection for tenant '{}' :: tenant not enabled", tenantId);
             return null;
