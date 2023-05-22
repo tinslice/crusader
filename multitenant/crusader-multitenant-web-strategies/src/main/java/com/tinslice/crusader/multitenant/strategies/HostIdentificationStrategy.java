@@ -83,7 +83,7 @@ public class HostIdentificationStrategy implements TenantIdentificationStrategy 
         }
 
         if (hosts instanceof LinkedHashMap<?,?>) {
-            return ((LinkedHashMap<?, ?>) hosts).values().toArray(new String[]{});
+            return ((LinkedHashMap<String, String>) hosts).values().toArray(new String[0]);
         }
 
         if (hosts instanceof String) {
