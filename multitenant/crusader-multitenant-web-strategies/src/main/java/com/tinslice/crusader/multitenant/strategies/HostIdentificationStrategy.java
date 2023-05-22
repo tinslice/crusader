@@ -4,9 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * Implementation of {@link TenantIdentificationStrategy} that matches the tenant identity
@@ -81,6 +80,10 @@ public class HostIdentificationStrategy implements TenantIdentificationStrategy 
     private String[] getHosts(Object hosts) {
         if (hosts instanceof String[]) {
             return (String[]) hosts;
+        }
+
+        if (hosts instanceof LinkedHashMap<?,?>) {
+            return ((LinkedHashMap<?, ?>) hosts).values().toArray(new String[]{});
         }
 
         if (hosts instanceof String) {
