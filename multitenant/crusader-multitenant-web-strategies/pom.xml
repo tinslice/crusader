@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.tinslice.crusader</groupId>
     <artifactId>crusader-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <relativePath>../../crusader-parent</relativePath>
   </parent>
 
