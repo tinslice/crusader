@@ -3,4 +3,5 @@
 **/.idea
 .run
 build/.env
+pom.xml-*
 .DS_Store

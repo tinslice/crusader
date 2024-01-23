@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
  */
 public final class TenantContextHolder {
     public static final String MODE_THREAD_LOCAL = "MODE_THREAD_LOCAL";
+    public static final String MODE_INHERITABLE_THREAD_LOCAL = "MODE_INHERITABLE_THREAD_LOCAL";
     public static final String SYSTEM_PROPERTY = "crusader.tenant.strategy";
     private static String strategyName = System.getProperty(SYSTEM_PROPERTY);
     private static TenantContextHolderStrategy strategy;
@@ -48,7 +49,7 @@ public final class TenantContextHolder {
      * Changes the preferred strategy. Do <em>NOT</em> call this method more than once for a given JVM, as it
      * will re-initialize the strategy and adversely affect any existing threads using the old strategy.
      *
-     * <code>strategyName</code> can be one of {@link TenantContextHolder#MODE_THREAD_LOCAL}
+     * <code>strategyName</code> can be one of {@link TenantContextHolder#MODE_THREAD_LOCAL}, {@link TenantContextHolder#MODE_INHERITABLE_THREAD_LOCAL}
      * or class name for any implementation of {@link TenantContextHolderStrategy} .
      *
      * @param strategyName the fully qualified class name of the strategy that should be used.
@@ -59,27 +60,33 @@ public final class TenantContextHolder {
     }
 
     private static void initialize() {
-        if ((strategyName == null) || "".equals(strategyName)) {
+        if ((strategyName == null) || strategyName.isEmpty()) {
             // Set default
             strategyName = MODE_THREAD_LOCAL;
         }
 
         if (strategyName.equals(MODE_THREAD_LOCAL)) {
             strategy = new ThreadLocalTenantContextHolderStrategy();
-        } else {
-            // Try to load a custom strategy
-            try {
-                Class<?> clazz = Class.forName(strategyName);
+            return;
+        }
 
-                if (!TenantContextHolderStrategy.class.isAssignableFrom(clazz)) {
-                    throw new InvalidClassException("Strategy does not implement TenantContextHolderStrategy .");
-                }
+        if (strategyName.equals(MODE_INHERITABLE_THREAD_LOCAL)) {
+            strategy = new InheritableThreadLocalTenantContextHolderStrategy();
+            return;
+        }
 
-                Constructor<?> customStrategy = clazz.getConstructor();
-                strategy = (TenantContextHolderStrategy) customStrategy.newInstance();
-            } catch (Exception e) {
-                throw new TenantContextHolderInitializationException(e);
+        // Try to load a custom strategy
+        try {
+            Class<?> clazz = Class.forName(strategyName);
+
+            if (!TenantContextHolderStrategy.class.isAssignableFrom(clazz)) {
+                throw new InvalidClassException(String.format("Strategy '%s' does not implement TenantContextHolderStrategy .", strategyName));
             }
+
+            Constructor<?> customStrategy = clazz.getConstructor();
+            strategy = (TenantContextHolderStrategy) customStrategy.newInstance();
+        } catch (Exception e) {
+            throw new TenantContextHolderInitializationException(e);
         }
     }
 
@@ -88,6 +95,4 @@ public final class TenantContextHolder {
      */
     private TenantContextHolder() {
     }
-
-
 }
